@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaDeGestionDeEmpleados.Servicios;
 using SistemaDeGestionDeEmpleados.Web.Models;
-using System.Diagnostics;
 
 namespace SistemaDeGestionDeEmpleados.Web.Controllers
 {
@@ -19,28 +18,27 @@ namespace SistemaDeGestionDeEmpleados.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int? idSucursal)
+        public IActionResult Index(int idSucursal)
         {
-            var empleados = this.empleadoService.Obtener(idSucursal);
-
-            return View(empleados);
+            this.ViewBag.Sucursales = SucursalViewModel.MapToModel(this.sucursalService.ListarActivas());
+            return View(EmpleadoResponseViewModel.MapToModel(this.empleadoService.Obtener(idSucursal)));
         }
 
         [HttpGet]
         public IActionResult CrearForm()
         {
-            this.ViewBag.Sucursales = this.sucursalService.ListarActivas();
+            this.ViewBag.Sucursales = SucursalViewModel.MapToModel(this.sucursalService.ListarActivas());
             return View();
         }
 
         [HttpPost]
-        public IActionResult Crear(EmpleadoViewModel model) 
+        public IActionResult Crear(EmpleadoRequestViewModel model) 
         {
             if (!ModelState.IsValid)
             {
                 return View(CrearForm());
             }
-            this.empleadoService.Crear(model.NombreCompleto, model.Sucursal.Id);
+            this.empleadoService.Crear(model.NombreCompleto, model.IdSucursal);
 
             return RedirectToAction("Index");
         }

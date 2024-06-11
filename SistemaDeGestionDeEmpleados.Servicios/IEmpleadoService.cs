@@ -11,6 +11,6 @@ namespace SistemaDeGestionDeEmpleados.Servicios
     {
         int Crear(string nombreCompleto, int idSucursal);
 
-        List<Empleado> Obtener(int? idSucursal);
+        List<Empleado> Obtener(int idSucursal);
     }
 }

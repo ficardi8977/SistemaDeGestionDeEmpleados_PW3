@@ -18,7 +18,7 @@ namespace SistemaDeGestionDeEmpleados.Servicios
 
         public List<Sucursal> ListarActivas()
         {
-            return this.context.Sucursals.Where(s => !s.Eliminada).ToList();
+            return this.context.Sucursals.Where(s => !s.Eliminada).OrderBy(o => o.Direccion).ToList();
         }
     }
 }

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SistemaDeGestionDeEmpleados.Web.Models.EmpleadoResponseViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Empleados</h1>
+
+<form asp-controller="Empleado" asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="SucursalId">Filtrar por Sucursal:</label>
+        <select id="SucursalId" name="idSucursal" class="form-control">
+            <option value="0">Todas las Sucursales</option>
+            @foreach (var sucursal in ViewBag.Sucursales)
+            {
+                <option value="@sucursal.Id">@sucursal.Direccion</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Filtrar" class="btn btn-primary" />
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreCompleto)
+            </th>
+            <th>
+                Sucursal
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCompleto)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.Sucursal.Direccion)
+             </td>
+        </tr>
+}
+    </tbody>
+</table>

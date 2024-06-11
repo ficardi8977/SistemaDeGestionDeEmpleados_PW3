@@ -1,4 +1,5 @@
-﻿using SistemaDeGestionDeEmpleados.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaDeGestionDeEmpleados.Data.EF;
 
 namespace SistemaDeGestionDeEmpleados.Servicios
 {
@@ -25,9 +26,14 @@ namespace SistemaDeGestionDeEmpleados.Servicios
             return empleadoNuevo.IdEmpleado;
         }
 
-        public List<Empleado> Obtener(int? idSucursal)
+        public List<Empleado> Obtener(int idSucursal)
         {
-            return this.ctx.Empleados.Where(e => e.IdSucursal.Equals(idSucursal)).ToList();
+            
+            if (idSucursal == 0)
+            {
+                return this.ctx.Empleados.Include(x => x.IdSucursalNavigation).ToList();
+            }
+            return this.ctx.Empleados.Where(e => (e.IdSucursal.Equals(idSucursal))).ToList();
         }
     }
 }
